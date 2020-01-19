@@ -45,18 +45,6 @@ export class IODriver implements IODriverInterface {
     return extension
   }
 
-  protected getImageFileExtensionFromHeaders(uri: string, headers: Headers): string {
-    const mimeType: string|null = headers.get('Content-Type')
-    if (!mimeType) {
-      throw new MissingContentTypeException(uri)
-    }
-    const extension = this.getFileExtensionFromMimeType(mimeType)
-    if (!extension) {
-      throw new ForbiddenMimeTypeException(uri, mimeType)
-    }
-    return extension
-  }
-
   protected expiryFromMaxAge(maxAge_s: number): number {
     return maxAge_s * 1000 + new Date().getTime()
   }
@@ -145,14 +133,13 @@ export class IODriver implements IODriverInterface {
     // Override default cache-control
     const headers = mergeDeepRight(userHeaders, { 'Cache-Control': 'max-age=31536000' })
     const basename = this.fileLocator.getLocalFileNamePrefixForRemoteURI(uri)
-    const temporaryLocalUri = this.fileLocator.getLocalURIFromLocalFilename(basename)
+    const temporaryLocalUri = this.fileLocator.getLocalURIFromLocalFilename(basename + '.tmp')
     try {
       const report = await this.downloadManager.downloadImage(uri, temporaryLocalUri, headers)
       let localFileName = ''
       const error = !report.isOK ? new ImageDownloadFailure(uri, report.status) : null
+      localFileName = `${basename}`
       if (report.isOK && report.status != 304) {
-        const extension = this.getImageFileExtensionFromHeaders(uri, report.headers)
-        localFileName = `${basename}.${extension}`
         await this.fileSystem.move(temporaryLocalUri, this.fileLocator.getLocalURIFromLocalFilename(localFileName))
       }
       return {
