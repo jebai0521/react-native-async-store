@@ -302,9 +302,9 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** and in parallel: preload the list of images to Store.
+     * **Asynchronously** and in parallel: preload the list of resources to Store.
      * 
-     * **Info** This function will revalidate images which are already preloaded, and download the others.
+     * **Info** This function will revalidate resources which are already preloaded, and download the others.
      * 
      * @param targets an array of string URI or React `URISource` prop
      * @param onProgress a callback to be invoked after each preloading
@@ -329,7 +329,7 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** delete an existing image from the Store.
+     * **Asynchronously** delete an existing resource from the Store.
      * Does nothing if the provided URI have no matching entry in Store.
      * 
      * @param target 
@@ -341,7 +341,7 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** delete all images from the Store.
+     * **Asynchronously** delete all resources from the Store.
      * 
      * @param onProgress a callback to be invoked after each deletion
      */
@@ -351,7 +351,7 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** delete all image which are stale from the Store.
+     * **Asynchronously** delete all resource which are stale from the Store.
      * 
      * @param onProgress a callback to be invoked after each deletion
      */
@@ -361,7 +361,7 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** revalidate a stored image *if it was previously registered*.
+     * **Asynchronously** revalidate a stored resource *if it was previously registered*.
      * 
      * **Info**: Revalidation is done with:
      * 
@@ -382,7 +382,7 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** revalidate all images *which were previously registered*.
+     * **Asynchronously** revalidate all resources *which were previously registered*.
      * 
      * **Info**: Revalidation is done with:
      * 
@@ -402,7 +402,7 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously** revalidate all stale images in the store.
+     * **Asynchronously** revalidate all stale resources in the store.
      *
      * **Info**: Revalidation is done with:
      * 
@@ -425,7 +425,7 @@ export class AsyncStore<T extends object = any> {
    * - clear metadata from storage
    * - delete store root folder from filesystem
    * 
-   * **Warning**: This method will wipe out all images registered with this library.
+   * **Warning**: This method will wipe out all resources registered with this library.
    * @throws If the cache root could not be deleted
    * 
    */

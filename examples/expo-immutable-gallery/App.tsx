@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Dimensions, ScrollView, Button, Platform, ProgressBarAndroid, ProgressViewIOS, SafeAreaView } from 'react-native';
-import { imageStore } from './src/store';
-import { URIEvent, OfflineImage } from 'react-native-async-store';
+import { asyncStore } from './src/store';
+import { URIEvent } from 'react-native-async-store';
 
 const images = [
   'https://images.unsplash.com/photo-1496206402647-3c79bd59c051?fm=png',
@@ -13,8 +13,8 @@ const images = [
 ]
 
 async function initialize(onProgress: (event: URIEvent, currentIndex: number, total: number) => void) {
-  await imageStore.mount()
-  await imageStore.preloadItems(images, onProgress)
+  await asyncStore.mount()
+  await asyncStore.preloadItems(images, onProgress)
 }
 
 function Images() {
@@ -22,7 +22,7 @@ function Images() {
   const height = width / 1.5
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
-      {images.map((uri) => <OfflineImage reactive staleWhileRevalidate style={{ width, height }} storeName={'GoldenProject'} height={height} width={width} key={uri} source={{ uri }} />)}
+      {/* {images.map((uri) => <OfflineImage reactive staleWhileRevalidate style={{ width, height }} storeName={'GoldenProject'} height={height} width={width} key={uri} source={{ uri }} />)} */}
     </ScrollView>
   )
 }
@@ -75,13 +75,13 @@ export default function App() {
   useEffect(function onStart(){
     mountStore()
     return async () => {
-      return imageStore.deleteAllItems()
+      return asyncStore.deleteAllItems()
     }
   }, [])
   const clearStore = () => {
     setIsLoading(true)
     setDownloaded(0)
-    imageStore.clear().then(mountStore)
+    asyncStore.clear().then(mountStore)
   }
   return (
     <View style={[{ flex: 1 }, styles.container]}>
