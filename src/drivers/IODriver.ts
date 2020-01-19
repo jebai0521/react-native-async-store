@@ -20,7 +20,7 @@ export class IODriver implements IODriverInterface {
   constructor(protected readonly name: string, protected readonly config: AsyncStoreConfig<any>, protected readonly fileLocator: FileLocatorInterface) {
     this.fileSystem = new config.FileSystemDriver(name)
     this.downloadManager = new config.DownloadManager()
-    this.metaInfoFetcher = config.imageMetaInfoFetcher
+    this.metaInfoFetcher = config.metaInfoFetcher
   }
 
   protected getHeadersFromVersionTag(versionTag: URIVersionTag) {

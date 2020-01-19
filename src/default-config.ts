@@ -9,5 +9,5 @@ export const defaultConfig: BaseAsyncStoreConfig<{}> = {
   maxParallelDownloads: 10,
   maxAttemptsBeforeAbort: 3,
   sleepBetweenAttempts: 400,
-  imageMetaInfoFetcher: () => ({})
+  metaInfoFetcher: () => ({})
 }

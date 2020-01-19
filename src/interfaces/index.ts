@@ -65,7 +65,7 @@ export interface BaseAsyncStoreConfig<T extends object> {
   /**
    * You can store image meta-info such as Size from headers. And retrieve it later with {@link AsyncStore.getMetaInfo} method.
    */
-  imageMetaInfoFetcher: (headers: Headers) => T
+  metaInfoFetcher: (headers: Headers) => T
 }
 
 export interface MandatoryUserAsyncImageStoreConfig {
