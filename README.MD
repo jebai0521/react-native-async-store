@@ -1,14 +1,14 @@
-# The async image store for react native
+# The async store for react native
 
-**Canonical Use Case, the Wiki app**: The canonical use case is an app with lots of dynamic content which must be displayed offline, including images. You would have a launch sync step where you fetch relevant contents for the user. Of course, you could base64-encode those images, but that would cost a 30% data-space and eventually bandwidth growth.
+**Canonical Use Case, the Wiki app**: The canonical use case is an app with lots of dynamic content which must be displayed offline, including resources. You would have a launch sync step where you fetch relevant contents for the user. Of course, you could base64-encode those resources, but that would cost a 30% data-space and eventually bandwidth growth.
 
-**Motivations**: There is already a lot of great libraries for caching images in React Native. But I couldn't find one which allowed me to fully **control** my image assets and their persistence, guaranteeing an offline access when required.
+**Motivations**: There is already a lot of great libraries for caching resources in React Native. But I couldn't find one which allowed me to fully **control** my resource assets and their persistence, guaranteeing an offline access when required.
 
 **Pros**:
 
-- you can now consider your images as dynamic assets which presence is deterministic;
+- you can now consider your resources as dynamic assets which presence is deterministic;
 - however, if you just need a cache, you can configure this library to behave as such;
-- you have full control on the cache strategy, and can manually add, remove and revalidate images;
+- you have full control on the cache strategy, and can manually add, remove and revalidate resources;
 - cache validation is fully compatible with `Cache-Control`, `Expires`, `Last-Modified`, and `ETag` HTTP headers for an optimal bandwidth consumption, [see this section for a deep dive](#cache-policy).
 - the library is fully modular: you must inject your `FileSystem` and `DownloadManager` dependencies to fit with your choice of I/O libraries.
 
@@ -18,24 +18,24 @@
 
 ## Installation
 
-## Use case 1: lazy preload images as they are mounted
+## Use case 1: lazy preload resources as they are mounted
 
-> *The maximum duration these images stay in cache depends on store parameters, and cache headers in image responses. [See this section for a deep dive](#cache-policy).*
+> *The maximum duration these resources stay in cache depends on store parameters, and cache headers in resource responses. [See this section for a deep dive](#cache-policy).*
 
 ### First step, create the store and give it a name
 
 ``` javascript
-// ImageStore.js
-import { createStore } from 'react-native-async-image-store'
+// store.js
+import { createStore } from 'react-native-async-store'
 
 // store configuration
 const config = {
-    // Automatically remove stale, expired images during lifecycle methods.
+    // Automatically remove stale, expired resources during lifecycle methods.
     // Cleansing is done on mount and unmount.
     autoRemoveStales: true,
     // By default, this library will follow "Cache-Control: max-age" HTTP header
-    // directives to evaluate the freshness of images. You can force a value in
-    // seconds, and use Infinity to denote an immutable store (images are always
+    // directives to evaluate the freshness of resources. You can force a value in
+    // seconds, and use Infinity to denote an immutable store (resources are always
     // fresh).
     overrideMaxAge: Infinity,
     // A sensible default for debug logging is to use react native __DEV__ global.
@@ -44,7 +44,7 @@ const config = {
 
 // You can create as many stores as you wish, identified by name
 // Parameter object is optional
-export const ImageStore = createStore('myStore', config)
+export const AsyncStore = createStore('myStore', config)
 ```
 
 > Check all parameters fields  [in typescript definitions](lib/AsyncStore/types.d.ts).
@@ -55,7 +55,7 @@ export const ImageStore = createStore('myStore', config)
 // Root.js
 import { ActivityIndicator } from 'react-native'
 import { App } from './App'
-import { ImageStore } from './ImageStore'
+import { AsyncStore } from './store'
 
 export class Root extends React.PureComponent {
     // ...
@@ -69,14 +69,14 @@ export class Root extends React.PureComponent {
     async componentDidMount() {
         // Store mounting is asynchronous because it involves
         // restoring cache info
-        await ImageStore.mount()
+        await AsyncStore.mount()
         this.setState({
             loading: false
         })
     }
 
     async componentWillUnmount() {
-        await ImageStore.unmount()
+        await AsyncStore.unmount()
     }
 
     render() {
@@ -86,21 +86,11 @@ export class Root extends React.PureComponent {
 
 ```
 
-### Finally, use an `OfflineImage` component
-
-```jsx
-import { OfflineImage } from 'react-native-async-image-store'
-// This component must be in the parent hierarchy of Root
-export const MyImage = (props) => <OfflineImage storeName="myStore" {...props} />
-```
-
-> Check all props supported by `OfflineImage` component [in typescript definitions](lib/OfflineImage.d.ts).
-
-## Use case 2: Gain control on image preloading for offline usage
+## Use case 2: Gain control on resource preloading for offline usage
 
 > *Typically usefull in a wiki/news application with offline mode*
 
-Similar to scenario 1, but you can programatically preload images in a deterministic way with `ImageStore.preloadItems` method. That way, we can guarantee the end-user will have access to these images when he goes offline.
+Similar to scenario 1, but you can programatically preload resources in a deterministic way with `AsyncStore.preloadItems` method. That way, we can guarantee the end-user will have access to these resources when he goes offline.
 
 For exemple, your Root component will be extended as such:
 
@@ -110,10 +100,10 @@ class Root extends React.PureComponent {
  async componentDidMount() {
         // Store mounting is asynchronous because it involves
         // restoring cache info
-        await ImageStore.mount()
+        await AsyncStore.mount()
         const imagesToPreload = await DataSource.getImages()
         // preloadItems will also revalidate any stale image
-        await ImageStore.preloadItems(imagesToPreload)
+        await AsyncStore.preloadItems(imagesToPreload)
         this.setState({
             loading: false
         })
@@ -126,9 +116,9 @@ class Root extends React.PureComponent {
 
 ### `defaultMaxAge` and `overrideMaxAge` parameters
 
-`max-age` is a `Cache-Control` directive defining the default duration for which images will be fresh (contrary to stale).
+`max-age` is a `Cache-Control` directive defining the default duration for which resources will be fresh (contrary to stale).
 
-- `defaultMaxAge` will be the default freshness duration when no `Cache-control: max-age` directive or `Expires` header has been given in the image response.
+- `defaultMaxAge` will be the default freshness duration when no `Cache-control: max-age` directive or `Expires` header has been given in the resource response.
 - `overrideMaxAge` will override any freshness duration specified in a `Cache-control: max-age` directive or `Expires` header.
 - **You can use `Infinity` to enforce a never-expire policy**
 
@@ -136,14 +126,14 @@ class Root extends React.PureComponent {
 
 ## Cache policy derived from HTTP response headers
 
-The Store will try to behave as a HTTP cache, **deriving its caching policy  from both HTTP headers in the image response and user-provided parameters.**
+The Store will try to behave as a HTTP cache, **deriving its caching policy  from both HTTP headers in the resource response and user-provided parameters.**
 
 But contrary to a browser cache:
 
-- when offline, any stored image will be served to components, even if it's stale and [`must-revalidate` directive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#Revalidation_and_reloading) should be enforced. This is equivalent to request cache with [`Cache-Control: stale-if-error` directive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#Expiration).
-- library user can add, revalidate, redownload or remove an image programatically
-- library user can revalidate all stale images from the store
-- library user can remove all stale images from the store
+- when offline, any stored resource will be served to components, even if it's stale and [`must-revalidate` directive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#Revalidation_and_reloading) should be enforced. This is equivalent to request cache with [`Cache-Control: stale-if-error` directive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#Expiration).
+- library user can add, revalidate, redownload or remove an resource programatically
+- library user can revalidate all stale resources from the store
+- library user can remove all stale resources from the store
 
 ### `Cache-Control`
 
@@ -167,7 +157,7 @@ For the same reason, `must-revalidate` directive is interpreted loosly by the St
 
 ### `ETag` and `Last-Modified`
 
-When `Etag` or `Last-Modified` are present in an image response, there value will be used to revalidate stale resources. By providing `If-None-Match` and `If-Modified-Since` headers when requesting origin server, the Store will receive `304 Unmodified` status when images haven't changed, **sparing valuable bandwidth to the end users of your product**.
+When `Etag` or `Last-Modified` are present in an resource response, there value will be used to revalidate stale resources. By providing `If-None-Match` and `If-Modified-Since` headers when requesting origin server, the Store will receive `304 Unmodified` status when resources haven't changed, **sparing valuable bandwidth to the end users of your product**.
 
 If both headers are present, `ETag` will prevail.
 
