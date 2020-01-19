@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, Dimensions, ScrollView, Button, Platform, ProgressBarAndroid, ProgressViewIOS, SafeAreaView } from 'react-native';
 import { imageStore } from './src/store';
-import { URIEvent, OfflineImage } from 'react-native-async-image-store';
+import { URIEvent, OfflineImage } from 'react-native-async-store';
 
 const images = [
   'https://images.unsplash.com/photo-1496206402647-3c79bd59c051?fm=png',
@@ -14,7 +14,7 @@ const images = [
 
 async function initialize(onProgress: (event: URIEvent, currentIndex: number, total: number) => void) {
   await imageStore.mount()
-  await imageStore.preloadImages(images, onProgress)
+  await imageStore.preloadItems(images, onProgress)
 }
 
 function Images() {
@@ -75,7 +75,7 @@ export default function App() {
   useEffect(function onStart(){
     mountStore()
     return async () => {
-      return imageStore.deleteAllImages()
+      return imageStore.deleteAllItems()
     }
   }, [])
   const clearStore = () => {

@@ -1,18 +1,17 @@
 {
   "name": "react-native-async-store",
   "version": "0.0.6",
-  "repository": "git@github.com:jsamr/react-native-async-image-store.git",
-  "author": "Jules Randolph <jules.sam.randolph@gmail.com>",
+  "repository": "git@github.com:jebai0521/react-native-async-store.git",
+  "author": "Jebai0521 <jebai0521@gmail.com>",
   "license": "MIT",
   "files": [
     "lib/**/*"
   ],
-  "description": "Asynchronous image store for offline usage in react native",
+  "description": "Asynchronous store for offline usage in react native",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "keywords": [
     "react native",
-    "image",
     "store",
     "offline",
     "async",

@@ -100,7 +100,7 @@ export const MyImage = (props) => <OfflineImage storeName="myStore" {...props} /
 
 > *Typically usefull in a wiki/news application with offline mode*
 
-Similar to scenario 1, but you can programatically preload images in a deterministic way with `ImageStore.preloadImages` method. That way, we can guarantee the end-user will have access to these images when he goes offline.
+Similar to scenario 1, but you can programatically preload images in a deterministic way with `ImageStore.preloadItems` method. That way, we can guarantee the end-user will have access to these images when he goes offline.
 
 For exemple, your Root component will be extended as such:
 
@@ -112,8 +112,8 @@ class Root extends React.PureComponent {
         // restoring cache info
         await ImageStore.mount()
         const imagesToPreload = await DataSource.getImages()
-        // preloadImages will also revalidate any stale image
-        await ImageStore.preloadImages(imagesToPreload)
+        // preloadItems will also revalidate any stale image
+        await ImageStore.preloadItems(imagesToPreload)
         this.setState({
             loading: false
         })

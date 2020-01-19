@@ -33,16 +33,6 @@ export class IODriver implements IODriverInterface {
     return headers
   }
 
-  protected getFileExtensionFromMimeType(mime: string): string|null {
-    const regex=/^image\/(.+)/
-    const res = regex.exec(mime)
-    if (!res) {
-      return null
-    }
-    const [_, extension ] = res
-    return extension
-  }
-
   protected expiryFromMaxAge(maxAge_s: number): number {
     return maxAge_s * 1000 + new Date().getTime()
   }

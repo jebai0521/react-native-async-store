@@ -236,7 +236,7 @@ export class AsyncStore<T extends object = any> {
     await this.state.mount(registry)
     this.state.addRegistryUpdateListener(this.storage.save.bind(this.storage))
     if (this.config.autoRemoveStales) {
-      await this.deleteAllStales()
+      await this.deleteAllStaleItems()
     }
     this.mounted = true
   }
@@ -294,7 +294,7 @@ export class AsyncStore<T extends object = any> {
      * @param target string URI or React `ImageURISource` prop
      * @return A Promise resolving to the next `URIEvent`
      */
-  public async preloadImage(target: Target): Promise<URIEvent> {
+  public async preloadItem(target: Target): Promise<URIEvent> {
     this.assertMountInvariant()
     const source = getSourceFromUri(target)
     await this.iodriver.createBaseDirIfMissing()
@@ -310,13 +310,13 @@ export class AsyncStore<T extends object = any> {
      * @param onProgress a callback to be invoked after each preloading
      * @return A Promise resolving to an array of `URIEvent`
      */
-  public async preloadImages(targets: Target[], onProgress?: ProgressCallback): Promise<URIEvent[]> {
+  public async preloadItems(targets: Target[], onProgress?: ProgressCallback): Promise<URIEvent[]> {
     this.assertMountInvariant()
     const events: URIEvent[] = []
     let i = 0
     await this.iodriver.createBaseDirIfMissing()
     const tasks = targets.map(target => async () => {
-      const event = await this.preloadImage(target)
+      const event = await this.preloadItem(target)
       event && events.push(event)
       onProgress && onProgress(event, i, targets.length)
       i += 1
@@ -334,7 +334,7 @@ export class AsyncStore<T extends object = any> {
      * 
      * @param target 
      */
-  public async delete(target: Target): Promise<URIEvent> {
+  public async deleteItem(target: Target): Promise<URIEvent> {
     this.assertMountInvariant()
     const source = getSourceFromUri(target)
     return this.dispatchCommandToURI(source.uri, 'DELETE')
@@ -345,7 +345,7 @@ export class AsyncStore<T extends object = any> {
      * 
      * @param onProgress a callback to be invoked after each deletion
      */
-  public async deleteAllImages(onProgress?: ProgressCallback): Promise<URIEvent[]> {
+  public async deleteAllItems(onProgress?: ProgressCallback): Promise<URIEvent[]> {
     this.assertMountInvariant()
     return this.dispatchCommandToAll('DELETE', onProgress)
   }
@@ -355,7 +355,7 @@ export class AsyncStore<T extends object = any> {
      * 
      * @param onProgress a callback to be invoked after each deletion
      */
-  public async deleteAllStales(onProgress?: ProgressCallback): Promise<URIEvent[]> {
+  public async deleteAllStaleItems(onProgress?: ProgressCallback): Promise<URIEvent[]> {
     this.assertMountInvariant()
     return this.dispatchCommandWhen('DELETE', (s => s.fileState === 'STALE'), onProgress)
   }
@@ -374,7 +374,7 @@ export class AsyncStore<T extends object = any> {
      * @param target string URI or React `ImageURISource` prop
      * @return A Promise resolving to the next `URIEvent`
      */
-  public async revalidate(target: Target): Promise<URIEvent> {
+  public async revalidateItem(target: Target): Promise<URIEvent> {
     this.assertMountInvariant()
     await this.iodriver.createBaseDirIfMissing()
     const source = getSourceFromUri(target)
@@ -395,7 +395,7 @@ export class AsyncStore<T extends object = any> {
      * @param onProgress a callback to be invoked after each revalidation
      * @return A Promise resolving to a list of `URIEvent` related to each revalidation.
      */
-  public async revalidateAllImages(onProgress?: ProgressCallback): Promise<URIEvent[]> {
+  public async revalidateAllItems(onProgress?: ProgressCallback): Promise<URIEvent[]> {
     this.assertMountInvariant()
     await this.iodriver.createBaseDirIfMissing()
     return this.dispatchCommandToAll('REVALIDATE', onProgress)
@@ -412,7 +412,7 @@ export class AsyncStore<T extends object = any> {
      * @param onProgress a callback to be invoked after each revalidation
      * @return A Promise resolving to a list of `URIEvent` related to each revalidation.
      */
-  public async revalidateAllStaleImages(onProgress?: ProgressCallback): Promise<URIEvent[]> {
+  public async revalidateAllStaleItems(onProgress?: ProgressCallback): Promise<URIEvent[]> {
     this.assertMountInvariant()
     await this.iodriver.createBaseDirIfMissing()
     return this.dispatchCommandWhen('REVALIDATE', (s => s.fileState === 'STALE'), onProgress)
