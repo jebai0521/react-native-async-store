@@ -188,6 +188,12 @@ export class State implements StateInterface {
     return view(lens, this.cacheStore)
   }
 
+  isRegistry(remoteURI: string): boolean {
+    const pathLens = lensProp('localFileName')
+    const localFileName = view(pathLens, this.getURIModel(remoteURI)) as string
+    return localFileName !== undefined;
+  }
+
   getLocalFileNameForRemoteURI(remoteURI: string): string {
     const pathLens = lensProp('localFileName')
     const localFileName = view(pathLens, this.getURIModel(remoteURI)) as string

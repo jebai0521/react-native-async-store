@@ -221,6 +221,10 @@ export class AsyncImageStore<T extends object = any> {
     return this.state.getLocalURIForRemoteURI(remoteURI)
   }
 
+  protected isRegistered(remoteURI: string): boolean {
+    return this.state.isRegistry(remoteURI)
+  }
+
   /**
    * **Asynchronously** mount the Store, restoring cache metadata from storage.
    * 
