@@ -150,7 +150,7 @@ export class IODriver implements IODriverInterface {
       const report = await this.downloadManager.downloadImage(uri, temporaryLocalUri, headers)
       let localFileName = ''
       const error = !report.isOK ? new ImageDownloadFailure(uri, report.status) : null
-      if (report.isOK) {
+      if (report.isOK && report.status != 304) {
         const extension = this.getImageFileExtensionFromHeaders(uri, report.headers)
         localFileName = `${basename}.${extension}`
         await this.fileSystem.move(temporaryLocalUri, this.fileLocator.getLocalURIFromLocalFilename(localFileName))
