@@ -105,10 +105,10 @@ export class IODriver implements IODriverInterface {
     }
   }
 
-  async deleteImage(src: ImageSource): Promise<void> {
+  async delete(src: ImageSource): Promise<void> {
     const { uri } = src
     const file = this.fileLocator.getLocalURIForRemoteURI(uri)
-    if (await this.imageExists(src)) {
+    if (await this.exists(src)) {
       await this.fileSystem.delete(this.fileLocator.getLocalURIForRemoteURI(uri))
       this.log(`Local file '${file}' from origin ${uri} successfully deleted`)
     } else {
@@ -116,20 +116,20 @@ export class IODriver implements IODriverInterface {
     }
   }
 
-  async imageExists({ uri }: ImageSource): Promise<boolean> {
+  async exists({ uri }: ImageSource): Promise<boolean> {
     const localFileUri = this.fileLocator.getLocalURIForRemoteURI(uri)
     return this.fileSystem.nodeExists(localFileUri)
   }
 
-  async revalidateImage({ uri, headers }: ImageSource, versionTag: URIVersionTag): Promise<RequestReport> {
+  async revalidate({ uri, headers }: ImageSource, versionTag: URIVersionTag): Promise<RequestReport> {
     const newHeaders = {
       ...headers,
       ...this.getHeadersFromVersionTag(versionTag)
     }
-    return this.saveImage({ uri, headers: newHeaders })
+    return this.save({ uri, headers: newHeaders })
   }
 
-  async saveImage({ uri, headers: userHeaders }: ImageSource): Promise<RequestReport> {
+  async save({ uri, headers: userHeaders }: ImageSource): Promise<RequestReport> {
     // Override default cache-control
     const headers = mergeDeepRight(userHeaders, { 'Cache-Control': 'max-age=31536000' })
     const basename = this.fileLocator.getLocalFileNamePrefixForRemoteURI(uri)

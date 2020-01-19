@@ -121,7 +121,7 @@ export class AsyncStore<T extends object = any> {
         preloadProposal.headers = headers
       }
       propose(preloadProposal)
-      const report = await this.iodriver.saveImage(model)
+      const report = await this.iodriver.save(model)
       const proposal = reportToProposal(report)
       propose(proposal)
       this.logReport(report, uri)
@@ -141,7 +141,7 @@ export class AsyncStore<T extends object = any> {
       this.log(`File with origin ${model.uri} is unregistered; preload must be invoked first; ignoring revalidation.`)
       return
     }
-    const exists = await this.iodriver.imageExists(model)
+    const exists = await this.iodriver.exists(model)
     if (exists === false) {
       propose({ fileExists: false })
       if (state.networkState === 'AVAILABLE') {
@@ -171,15 +171,15 @@ export class AsyncStore<T extends object = any> {
       }
       propose(preloadProposal)
       const report = model.versionTag && exists ?
-        await this.iodriver.revalidateImage(model, model.versionTag) :
-        await this.iodriver.saveImage(model)
+        await this.iodriver.revalidate(model, model.versionTag) :
+        await this.iodriver.save(model)
       propose(reportToProposal(report))
       this.logReport(report, model.uri)
     }
   }
 
   private async onDelete(event: URIEvent, propose: ProposeFunction) {
-    await this.iodriver.deleteImage(event.nextModel)
+    await this.iodriver.delete(event.nextModel)
     propose(null)
   }
 
@@ -334,7 +334,7 @@ export class AsyncStore<T extends object = any> {
      * 
      * @param target 
      */
-  public async deleteImage(target: Target): Promise<URIEvent> {
+  public async delete(target: Target): Promise<URIEvent> {
     this.assertMountInvariant()
     const source = getSourceFromUri(target)
     return this.dispatchCommandToURI(source.uri, 'DELETE')
@@ -374,7 +374,7 @@ export class AsyncStore<T extends object = any> {
      * @param target string URI or React `ImageURISource` prop
      * @return A Promise resolving to the next `URIEvent`
      */
-  public async revalidateImage(target: Target): Promise<URIEvent> {
+  public async revalidate(target: Target): Promise<URIEvent> {
     this.assertMountInvariant()
     await this.iodriver.createBaseDirIfMissing()
     const source = getSourceFromUri(target)
