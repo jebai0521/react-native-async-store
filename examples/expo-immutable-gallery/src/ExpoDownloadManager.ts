@@ -1,5 +1,5 @@
 
-import { DownloadManagerInterface, DownloadReport } from 'react-native-async-image-store'
+import { DownloadManagerInterface, DownloadReport } from 'react-native-async-store'
 import * as FileSystem from 'expo-file-system'
 
 export class ExpoDownloadManager implements DownloadManagerInterface {

@@ -1,4 +1,4 @@
-import { createStore } from "react-native-async-image-store"
+import { createStore } from "react-native-async-store"
 import { ExpoDownloadManager } from "./ExpoDownloadManager"
 import { FileSystemDriver } from "./FileSystemDriver"
 import { AsyncStorageDriver } from "./AsyncStorageDriver"

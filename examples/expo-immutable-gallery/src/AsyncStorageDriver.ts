@@ -1,4 +1,4 @@
-import { StorageDriverInterface, URICacheRegistry } from "react-native-async-image-store"
+import { StorageDriverInterface, URICacheRegistry } from "react-native-async-store"
 import { AsyncStorage } from "react-native"
 
 export class AsyncStorageDriver implements StorageDriverInterface {

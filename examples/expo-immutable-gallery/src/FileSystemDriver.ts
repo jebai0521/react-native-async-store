@@ -1,4 +1,4 @@
-import { FileSystemDriverInterface, joinUri } from 'react-native-async-image-store'
+import { FileSystemDriverInterface, joinUri } from 'react-native-async-store'
 import * as FileSystem from 'expo-file-system'
 
 export class FileSystemDriver implements FileSystemDriverInterface {
