@@ -11,7 +11,7 @@ import {
     StorageDriverInterface,
     ProgressCallback,
     RequestReport,
-    UserImageStoreConfig,
+    UserStoreConfig,
     IODriverInterface
 } from '@src/interfaces'
 import { State, ProposeFunction } from '@src/State'
@@ -465,10 +465,10 @@ export function getStoreByName(name: string): AsyncStore|null {
  * **Warning**: Can be called once only. Use `getStoreByName` instead if you're looking for an instance.
  * 
  * @param name The unique name.
- * @param userConfig See config structure in the type definition of `UserImageStoreConfig`
+ * @param userConfig See config structure in the type definition of `UserStoreConfig`
  * @see AsyncStoreConfig
  * @see getStoreByName
  */
-export function createStore<T extends object = {}>(name: string, userConfig: UserImageStoreConfig<T>) {
+export function createStore<T extends object = {}>(name: string, userConfig: UserStoreConfig<T>) {
   return new AsyncStore(name, userConfig)
 }

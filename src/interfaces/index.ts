@@ -97,7 +97,7 @@ export interface MandatoryUserAsyncImageStoreConfig {
   StorageDriver: StorageDriverClass<any>
 }
 
-export type UserImageStoreConfig<T extends object> = Partial<AsyncStoreConfig<T>> & MandatoryUserAsyncImageStoreConfig
+export type UserStoreConfig<T extends object> = Partial<AsyncStoreConfig<T>> & MandatoryUserAsyncImageStoreConfig
 
 export interface AsyncStoreConfig<T extends object> extends BaseAsyncStoreConfig<T>, MandatoryUserAsyncImageStoreConfig {}
 
