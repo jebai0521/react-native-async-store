@@ -1,5 +1,5 @@
 import {
-    AsyncImageStoreConfig,
+    AsyncStoreConfig,
     HTTPHeaders,
     ImageSource,
     IODriverInterface,
@@ -19,7 +19,7 @@ export class IODriver implements IODriverInterface {
   protected downloadManager: DownloadManagerInterface
   protected metaInfoFetcher?: (headers: Headers) => any
 
-  constructor(protected readonly name: string, protected readonly config: AsyncImageStoreConfig<any>, protected readonly fileLocator: FileLocatorInterface) {
+  constructor(protected readonly name: string, protected readonly config: AsyncStoreConfig<any>, protected readonly fileLocator: FileLocatorInterface) {
     this.fileSystem = new config.FileSystemDriver(name)
     this.downloadManager = new config.DownloadManager()
     this.metaInfoFetcher = config.imageMetaInfoFetcher

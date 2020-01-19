@@ -1,6 +1,6 @@
 import invariant from 'invariant'
 import {
-    AsyncImageStoreConfig,
+    AsyncStoreConfig,
     ImageSource,
     URIPatch,
     URIEvent,
@@ -48,7 +48,7 @@ function reportToProposal(report: RequestReport): URIPatch {
  * 
  * @param config 
  */
-function normalizeUserConf<T extends object>(config: Partial<AsyncImageStoreConfig<T>>): Partial<AsyncImageStoreConfig<T>> {
+function normalizeUserConf<T extends object>(config: Partial<AsyncStoreConfig<T>>): Partial<AsyncStoreConfig<T>> {
   const newConf = {
     ...config
   }
@@ -71,18 +71,18 @@ export class AsyncStore<T extends object = any> {
   // @ts-ignore
   private state: State
   private mounted: boolean = false
-  private config: AsyncImageStoreConfig<T>
+  private config: AsyncStoreConfig<T>
   // @ts-ignore
   private storage: StorageDriverInterface
 
-  constructor(private name: string, userConfig: Partial<AsyncImageStoreConfig<T>>) {
+  constructor(private name: string, userConfig: Partial<AsyncStoreConfig<T>>) {
     invariant(name !== '', 'AsyncStore: store name cannot be empty.')
     invariant(!storesMap.has(name), 'AsyncStore: only one instance per storeName is allowed.')
     storesMap.set(name, this)
     const config = {
       ...defaultConfig,
       ...normalizeUserConf(userConfig)
-    } as AsyncImageStoreConfig<T>
+    } as AsyncStoreConfig<T>
     this.config = config
     this.onDelete = this.onDelete.bind(this)
     this.onPreload = this.onPreload.bind(this)
@@ -466,7 +466,7 @@ export function getStoreByName(name: string): AsyncStore|null {
  * 
  * @param name The unique name.
  * @param userConfig See config structure in the type definition of `UserImageStoreConfig`
- * @see AsyncImageStoreConfig
+ * @see AsyncStoreConfig
  * @see getStoreByName
  */
 export function createStore<T extends object = {}>(name: string, userConfig: UserImageStoreConfig<T>) {

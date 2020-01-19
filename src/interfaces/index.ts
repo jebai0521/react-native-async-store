@@ -97,9 +97,9 @@ export interface MandatoryUserAsyncImageStoreConfig {
   StorageDriver: StorageDriverClass<any>
 }
 
-export type UserImageStoreConfig<T extends object> = Partial<AsyncImageStoreConfig<T>> & MandatoryUserAsyncImageStoreConfig
+export type UserImageStoreConfig<T extends object> = Partial<AsyncStoreConfig<T>> & MandatoryUserAsyncImageStoreConfig
 
-export interface AsyncImageStoreConfig<T extends object> extends BaseAsyncImageStoreConfig<T>, MandatoryUserAsyncImageStoreConfig {}
+export interface AsyncStoreConfig<T extends object> extends BaseAsyncImageStoreConfig<T>, MandatoryUserAsyncImageStoreConfig {}
 
 export interface DownloadReport {
   isOK: boolean
@@ -147,7 +147,7 @@ export interface FileSystemDriverInterface {
 
 export type FileSystemDriverClass = new(storeName: string) => FileSystemDriverInterface
 
-export type IODriverClass = new<T extends object = {}>(name: string, config: AsyncImageStoreConfig<T>, fileLocator: FileLocatorInterface) => IODriverInterface
+export type IODriverClass = new<T extends object = {}>(name: string, config: AsyncStoreConfig<T>, fileLocator: FileLocatorInterface) => IODriverInterface
 
 export type StorageDriverClass<C extends StorageDriverInterface = StorageDriverInterface> = new(name: string) => C
 

@@ -2,7 +2,7 @@
 // tslint:disable:no-empty
 
 import { State, Reactor, DEBOUNCE_DELAY } from '../'
-import { URIEvent, URICacheRegistry, AsyncImageStoreConfig, FileSystemDriverInterface, DownloadManagerInterface, DownloadReport, StorageDriverInterface } from '@src/interfaces'
+import { URIEvent, URICacheRegistry, AsyncStoreConfig, FileSystemDriverInterface, DownloadManagerInterface, DownloadReport, StorageDriverInterface } from '@src/interfaces'
 import { defaultConfig } from '@src/default-config'
 
 class StupidFileSystemDriver implements FileSystemDriverInterface {
@@ -55,7 +55,7 @@ class StupidDownloadManager implements DownloadManagerInterface {
 
 }
 
-const enhancedConfig: AsyncImageStoreConfig<{}> = {
+const enhancedConfig: AsyncStoreConfig<{}> = {
   ...defaultConfig,
   StorageDriver: StupidStorageDriver,
   FileSystemDriver: StupidFileSystemDriver,

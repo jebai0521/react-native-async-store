@@ -1,5 +1,5 @@
 import {
-    AsyncImageStoreConfig,
+    AsyncStoreConfig,
     ProgressCallback,
     StateInterface,
     URICacheFileState,
@@ -87,7 +87,7 @@ export class State implements StateInterface {
 
   private cacheStore: CacheStore = clone(initialCacheStore)
 
-  constructor(config: AsyncImageStoreConfig<any>, storeName: string) {
+  constructor(config: AsyncStoreConfig<any>, storeName: string) {
     this.updateURIModel = this.updateURIModel.bind(this)
     this.updateNetworkModel = this.updateNetworkModel.bind(this)
     // Throttle dispatch commands to prevent I/O and CPU obstruction
