@@ -63,7 +63,7 @@ const enhancedConfig: AsyncStoreConfig<{}> = {
 }
 
 function makeState() {
-  return new State(enhancedConfig, 'ImageStore')
+  return new State(enhancedConfig, 'AsyncStore')
 }
 
 describe('State class', () => {

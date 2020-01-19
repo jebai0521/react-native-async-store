@@ -287,11 +287,11 @@ export class AsyncStore<T extends object = any> {
   }
 
     /**
-     * **Asynchronously**  preload the provided image to Store.
+     * **Asynchronously**  preload the provided resource to Store.
      * 
-     * **Info** This function will revalidate an image which has already been preloaded, and download unconditionnaly otherwise.
+     * **Info** This function will revalidate an resource which has already been preloaded, and download unconditionnaly otherwise.
      * 
-     * @param target string URI or React `ImageURISource` prop
+     * @param target string URI or React `URISource` prop
      * @return A Promise resolving to the next `URIEvent`
      */
   public async preloadItem(target: Target): Promise<URIEvent> {
@@ -306,7 +306,7 @@ export class AsyncStore<T extends object = any> {
      * 
      * **Info** This function will revalidate images which are already preloaded, and download the others.
      * 
-     * @param targets an array of string URI or React `ImageURISource` prop
+     * @param targets an array of string URI or React `URISource` prop
      * @param onProgress a callback to be invoked after each preloading
      * @return A Promise resolving to an array of `URIEvent`
      */
@@ -371,7 +371,7 @@ export class AsyncStore<T extends object = any> {
      * **Warning** This method does nothing on a resource which has not been registered,
      * i.e. to which `preload` has not been called at least once.
      * 
-     * @param target string URI or React `ImageURISource` prop
+     * @param target string URI or React `URISource` prop
      * @return A Promise resolving to the next `URIEvent`
      */
   public async revalidateItem(target: Target): Promise<URIEvent> {

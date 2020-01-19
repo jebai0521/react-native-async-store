@@ -9,10 +9,10 @@ export interface BaseAsyncStoreConfig<T extends object> {
   debug: boolean
   /**
    * 
-   * This value will be used when no `Cache-control: max-age` directive or `Expires` header have been given in the image response.
-   * `Infinity` can be used to denote an **immutable**, never-expire image default policy.
+   * This value will be used when no `Cache-control: max-age` directive or `Expires` header have been given in the resource response.
+   * `Infinity` can be used to denote an **immutable**, never-expire resource default policy.
    * 
-   * **Info** `max-age` is a cache control directive specifying the duration, in seconds, during which images are considered fresh.
+   * **Info** `max-age` is a cache control directive specifying the duration, in seconds, during which resources are considered fresh.
    * 
    * **Default**: `84000` seconds (1 day)
    */
@@ -30,17 +30,17 @@ export interface BaseAsyncStoreConfig<T extends object> {
    */
   sleepBetweenAttempts: number
   /**
-   * This value will override any `Cache-control: max-age` directive or `Expires` header in the image response.
+   * This value will override any `Cache-control: max-age` directive or `Expires` header in the resource response.
    * `Infinity` can be used to denote an **immutable**, never-expire policy.
    *
-   * **Info** `max-age` is a cache control directive specifying the duration, in seconds, during which images are considered fresh.
+   * **Info** `max-age` is a cache control directive specifying the duration, in seconds, during which resources are considered fresh.
    * 
    * **Default**: `undefined` (don't override)
    */
   overrideMaxAge?: number
   /**
    * When this option is set to `true`, the store will automatically remove stale (expired)
-   * images on mount.
+   * resources on mount.
    * 
    * **Default**: `false`
    */
@@ -54,7 +54,7 @@ export interface BaseAsyncStoreConfig<T extends object> {
   maxParallelDownloads: number
   /**
    * A `class` which produces `IODriverInterface` instances.
-   * This driver is used to store, delete and check images existence.
+   * This driver is used to store, delete and check resources existence.
    * 
    * @see IODriverInterface
    * @see IODriverClass
@@ -63,15 +63,15 @@ export interface BaseAsyncStoreConfig<T extends object> {
    */
   IODriver: IODriverClass
   /**
-   * You can store image meta-info such as Size from headers. And retrieve it later with {@link AsyncStore.getMetaInfo} method.
+   * You can store resource meta-info such as Size from headers. And retrieve it later with {@link AsyncStore.getMetaInfo} method.
    */
   metaInfoFetcher: (headers: Headers) => T
 }
 
-export interface MandatoryUserAsyncImageStoreConfig {
+export interface MandatoryUserAsyncStoreConfig {
   /**
    * A `class` which produces `DownloadManagerInterface` instances.
-   * This manager is used to download images file.
+   * This manager is used to download resources file.
    * 
    * @remarks
    * You can implement this class using `fetch` API. To use it on Android, you must configure your
@@ -82,7 +82,7 @@ export interface MandatoryUserAsyncImageStoreConfig {
   DownloadManager: DownloadManagerClass
   /**
    * A `class` which produces `FileSystemDriverInterface` instances.
-   * This driver is used to move images file through URIs.
+   * This driver is used to move resources file through URIs.
    */
   FileSystemDriver: FileSystemDriverClass
   /**
@@ -97,9 +97,9 @@ export interface MandatoryUserAsyncImageStoreConfig {
   StorageDriver: StorageDriverClass<any>
 }
 
-export type UserStoreConfig<T extends object> = Partial<AsyncStoreConfig<T>> & MandatoryUserAsyncImageStoreConfig
+export type UserStoreConfig<T extends object> = Partial<AsyncStoreConfig<T>> & MandatoryUserAsyncStoreConfig
 
-export interface AsyncStoreConfig<T extends object> extends BaseAsyncStoreConfig<T>, MandatoryUserAsyncImageStoreConfig {}
+export interface AsyncStoreConfig<T extends object> extends BaseAsyncStoreConfig<T>, MandatoryUserAsyncStoreConfig {}
 
 export interface DownloadReport {
   isOK: boolean
@@ -109,10 +109,10 @@ export interface DownloadReport {
 
 export interface DownloadManagerInterface {
   /**
-   * Download remote image to local URI.
+   * Download remote resource to local URI.
    * 
    * @throws Any exception thrown by this function WILL be cought by the `IODriver`.
-   * @param remoteURI The remote image resource locator.
+   * @param remoteURI The remote resource locator.
    * @param localURI The target local URI. The URI scheme WILL be `file://`.
    * @param headers A map of headers that MUST be provided with the download request.
    */
@@ -222,7 +222,7 @@ export interface URICacheRegistry {
 export interface FileLocatorInterface {
 
   /**
-   * Get root directory from which images will be stored.
+   * Get root directory from which resources will be stored.
    */
   getBaseDirURI(): string
 

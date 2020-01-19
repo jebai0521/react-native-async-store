@@ -3,7 +3,7 @@ import { ExpoDownloadManager } from "./ExpoDownloadManager"
 import { FileSystemDriver } from "./FileSystemDriver"
 import { AsyncStorageDriver } from "./AsyncStorageDriver"
 
-export const imageStore = createStore('GoldenProject', {
+export const asyncStore = createStore('GoldenProject', {
     StorageDriver: AsyncStorageDriver,
     DownloadManager: ExpoDownloadManager,
     FileSystemDriver: FileSystemDriver,

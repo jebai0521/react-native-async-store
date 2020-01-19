@@ -102,7 +102,7 @@ class Root extends React.PureComponent {
         // restoring cache info
         await AsyncStore.mount()
         const imagesToPreload = await DataSource.getImages()
-        // preloadItems will also revalidate any stale image
+        // preloadItems will also revalidate any stale resource
         await AsyncStore.preloadItems(imagesToPreload)
         this.setState({
             loading: false
