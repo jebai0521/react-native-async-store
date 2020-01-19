@@ -133,7 +133,7 @@ export class IODriver implements IODriverInterface {
     const basename = this.fileLocator.getLocalFileNamePrefixForRemoteURI(uri)
     const temporaryLocalUri = this.fileLocator.getLocalURIFromLocalFilename(basename + '.tmp')
     try {
-      const report = await this.downloadManager.downloadImage(uri, temporaryLocalUri, headers)
+      const report = await this.downloadManager.download(uri, temporaryLocalUri, headers)
       let localFileName = ''
       const error = !report.isOK ? new DownloadFailure(uri, report.status) : null
       localFileName = `${basename}`

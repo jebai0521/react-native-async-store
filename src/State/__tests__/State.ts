@@ -44,7 +44,7 @@ class StupidStorageDriver implements StorageDriverInterface {
 
 // tslint:disable-next-line: max-classes-per-file
 class StupidDownloadManager implements DownloadManagerInterface {
-  async downloadImage(remoteURI: string, localURI: string, headers: Record<string, string>): Promise<DownloadReport> {
+  async download(remoteURI: string, localURI: string, headers: Record<string, string>): Promise<DownloadReport> {
     const report: DownloadReport = {
       isOK: true,
       headers: new Headers(),

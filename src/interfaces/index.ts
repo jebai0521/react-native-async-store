@@ -116,7 +116,7 @@ export interface DownloadManagerInterface {
    * @param localURI The target local URI. The URI scheme WILL be `file://`.
    * @param headers A map of headers that MUST be provided with the download request.
    */
-  downloadImage(remoteURI: string, localURI: string, headers: Record<string, string>): Promise<DownloadReport>
+  download(remoteURI: string, localURI: string, headers: Record<string, string>): Promise<DownloadReport>
 }
 
 export type DownloadManagerClass = new() => DownloadManagerInterface

@@ -3,7 +3,7 @@ import { DownloadManagerInterface, DownloadReport } from 'react-native-async-sto
 import * as FileSystem from 'expo-file-system'
 
 export class ExpoDownloadManager implements DownloadManagerInterface {
-  async downloadImage(remoteURI: string, localURI: string, headers: Record<string, string>): Promise<DownloadReport> {
+  async download(remoteURI: string, localURI: string, headers: Record<string, string>): Promise<DownloadReport> {
     let respStatus = 0
     let responseHeader = new Headers()
     let isOK = false
