@@ -446,7 +446,7 @@ export class AsyncStore<T extends object = any> {
    * @param target 
    */
   public getMetaInfo(target: Target): T|null {
-    return this.state.getImageMetaInfo(typeof target === 'string' ? target : target.uri)
+    return this.state.getMetaInfo(typeof target === 'string' ? target : target.uri)
   }
 }
 

@@ -297,7 +297,7 @@ export class State implements StateInterface {
     this.registryListeners.clear()
   }
 
-  public getImageMetaInfo<T>(uri: string): T {
+  public getMetaInfo<T>(uri: string): T {
     const lens = this.getURILens(uri)
     const actual = view(lens, this.cacheStore) as URICacheModel
     return actual.metaInfo as T
