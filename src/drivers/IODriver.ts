@@ -9,9 +9,7 @@ import {
     FileSystemDriverInterface,
     DownloadManagerInterface
 } from '@src/interfaces'
-import { MissingContentTypeException } from '@src/errors/MissingContentTypeException'
-import { ForbiddenMimeTypeException } from '@src/errors/ForbiddenMimeTypeException'
-import { ImageDownloadFailure } from '@src/errors/ImageDownloadFailure'
+import { DownloadFailure } from '@src/errors/DownloadFailure'
 import { mergeDeepRight } from 'ramda'
 
 export class IODriver implements IODriverInterface {
@@ -137,7 +135,7 @@ export class IODriver implements IODriverInterface {
     try {
       const report = await this.downloadManager.downloadImage(uri, temporaryLocalUri, headers)
       let localFileName = ''
-      const error = !report.isOK ? new ImageDownloadFailure(uri, report.status) : null
+      const error = !report.isOK ? new DownloadFailure(uri, report.status) : null
       localFileName = `${basename}`
       if (report.isOK && report.status != 304) {
         await this.fileSystem.move(temporaryLocalUri, this.fileLocator.getLocalURIFromLocalFilename(localFileName))
@@ -153,7 +151,7 @@ export class IODriver implements IODriverInterface {
     } catch (error) {
       return {
         uri,
-        error: new ImageDownloadFailure(uri, error.status, error.message),
+        error: new DownloadFailure(uri, error.status, error.message),
         expires: 0,
         localFileName: '',
         versionTag: null,

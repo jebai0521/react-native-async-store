@@ -1,6 +1,6 @@
 import { Reactor, RegistryUpdateListener } from '@src/State'
 
-export interface BaseAsyncImageStoreConfig<T extends object> {
+export interface BaseAsyncStoreConfig<T extends object> {
   /**
    * Log events to the console
    * 
@@ -99,7 +99,7 @@ export interface MandatoryUserAsyncImageStoreConfig {
 
 export type UserImageStoreConfig<T extends object> = Partial<AsyncStoreConfig<T>> & MandatoryUserAsyncImageStoreConfig
 
-export interface AsyncStoreConfig<T extends object> extends BaseAsyncImageStoreConfig<T>, MandatoryUserAsyncImageStoreConfig {}
+export interface AsyncStoreConfig<T extends object> extends BaseAsyncStoreConfig<T>, MandatoryUserAsyncImageStoreConfig {}
 
 export interface DownloadReport {
   isOK: boolean

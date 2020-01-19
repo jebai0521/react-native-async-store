@@ -1,7 +1,7 @@
 import { IODriver } from './drivers/IODriver'
-import { BaseAsyncImageStoreConfig } from './interfaces'
+import { BaseAsyncStoreConfig } from './interfaces'
 
-export const defaultConfig: BaseAsyncImageStoreConfig<{}> = {
+export const defaultConfig: BaseAsyncStoreConfig<{}> = {
   IODriver,
   debug: __DEV__,
   defaultMaxAge: 86000,

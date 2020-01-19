@@ -441,7 +441,7 @@ export class AsyncStore<T extends object = any> {
   /**
    * Get metainfo for given target.
    * 
-   * **Prerequisites**: You must have provided a {@link BaseAsyncImageStoreConfig.imageMetaInfoFetcher}.
+   * **Prerequisites**: You must have provided a {@link BaseAsyncStoreConfig.imageMetaInfoFetcher}.
    * 
    * @param target 
    */
