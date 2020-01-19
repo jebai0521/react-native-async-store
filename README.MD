@@ -47,7 +47,7 @@ const config = {
 export const ImageStore = createStore('myStore', config)
 ```
 
-> Check all parameters fields  [in typescript definitions](lib/AsyncImageStore/types.d.ts).
+> Check all parameters fields  [in typescript definitions](lib/AsyncStore/types.d.ts).
 
 ### Secondly, mount the store along with your root component
 

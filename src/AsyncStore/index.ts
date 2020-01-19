@@ -20,7 +20,7 @@ import splitEvery from 'ramda/es/splitEvery'
 
 export type Target = string|ImageSource
 
-const storesMap: Map<string, AsyncImageStore> = new Map()
+const storesMap: Map<string, AsyncStore> = new Map()
 
 function getSourceFromUri(target: Target): ImageSource {
   if (typeof target === 'string') {
@@ -65,7 +65,7 @@ function wait(duration: number) {
   return new Promise(res => setTimeout(res, duration))
 }
 
-export class AsyncImageStore<T extends object = any> {
+export class AsyncStore<T extends object = any> {
   // @ts-ignore
   private iodriver: IODriverInterface
   // @ts-ignore
@@ -76,8 +76,8 @@ export class AsyncImageStore<T extends object = any> {
   private storage: StorageDriverInterface
 
   constructor(private name: string, userConfig: Partial<AsyncImageStoreConfig<T>>) {
-    invariant(name !== '', 'AsyncImageStore: store name cannot be empty.')
-    invariant(!storesMap.has(name), 'AsyncImageStore: only one instance per storeName is allowed.')
+    invariant(name !== '', 'AsyncStore: store name cannot be empty.')
+    invariant(!storesMap.has(name), 'AsyncStore: only one instance per storeName is allowed.')
     storesMap.set(name, this)
     const config = {
       ...defaultConfig,
@@ -193,7 +193,7 @@ export class AsyncImageStore<T extends object = any> {
 
   private log(info: string) {
     if (this.config.debug) {
-      console.log(`AsyncImageStore ${this.name}: ${info}`)
+      console.log(`AsyncStore ${this.name}: ${info}`)
     }
   }
 
@@ -455,7 +455,7 @@ export class AsyncImageStore<T extends object = any> {
  * 
  * @param name 
  */
-export function getStoreByName(name: string): AsyncImageStore|null {
+export function getStoreByName(name: string): AsyncStore|null {
   return storesMap.get(name) || null
 }
 
@@ -470,5 +470,5 @@ export function getStoreByName(name: string): AsyncImageStore|null {
  * @see getStoreByName
  */
 export function createStore<T extends object = {}>(name: string, userConfig: UserImageStoreConfig<T>) {
-  return new AsyncImageStore(name, userConfig)
+  return new AsyncStore(name, userConfig)
 }

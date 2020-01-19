@@ -1,7 +1,7 @@
 import React, { ComponentType, PureComponent } from 'react'
 import { ImageProps, Image, ImageRequireSource, ActivityIndicator, ImageSourcePropType, StyleProp } from 'react-native'
 import invariant from 'invariant'
-import { AsyncImageStore, getStoreByName } from './AsyncImageStore'
+import { AsyncStore, getStoreByName } from './AsyncStore'
 import { URIEvent, ImageSource, URICacheFileState, URICacheSyncState } from './interfaces'
 
 export interface MinimalImageComponentProps {
@@ -82,14 +82,14 @@ export class OfflineImage<C extends MinimalImageComponentProps = ImageProps> ext
     LoadingIndicatorComponent: ActivityIndicator as any
   }
 
-  private store: AsyncImageStore
+  private store: AsyncStore
 
   constructor(props: OfflineImageProps<C>) {
     super(props)
     const store = getStoreByName(props.storeName)
     invariant(store !== null, `OfflineImage: no store named ${props.storeName} could be found.`)
     invariant(props.source && props.source.uri !== null, 'OfflineImage: the source prop must contain a `uri` field.')
-    this.store = store as AsyncImageStore
+    this.store = store as AsyncStore
     this.state = {
       fileState: 'UNAVAILABLE',
       syncState: 'IDLE_SUCCESS',

@@ -63,7 +63,7 @@ export interface BaseAsyncImageStoreConfig<T extends object> {
    */
   IODriver: IODriverClass
   /**
-   * You can store image meta-info such as Size from headers. And retrieve it later with {@link AsyncImageStore.getMetaInfo} method.
+   * You can store image meta-info such as Size from headers. And retrieve it later with {@link AsyncStore.getMetaInfo} method.
    */
   imageMetaInfoFetcher: (headers: Headers) => T
 }

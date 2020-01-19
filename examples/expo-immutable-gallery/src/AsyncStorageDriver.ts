@@ -5,7 +5,7 @@ export class AsyncStorageDriver implements StorageDriverInterface {
     constructor(private name: string) {}
   
     public getKey(): string {
-      return `AsyncImageStore-${this.name}`
+      return `AsyncStore-${this.name}`
     }
   
     public async load(): Promise<URICacheRegistry|null> {

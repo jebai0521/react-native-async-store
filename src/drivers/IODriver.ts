@@ -89,7 +89,7 @@ export class IODriver implements IODriverInterface {
 
   protected log(info: string) {
     if (this.config.debug) {
-      console.log(`AsyncImageStore ${this.name}: ${info}`)
+      console.log(`AsyncStore ${this.name}: ${info}`)
     }
   }
 
