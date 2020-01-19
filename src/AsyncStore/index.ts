@@ -1,7 +1,7 @@
 import invariant from 'invariant'
 import {
     AsyncStoreConfig,
-    ImageSource,
+    Source,
     URIPatch,
     URIEvent,
     HTTPHeaders,
@@ -18,11 +18,11 @@ import { State, ProposeFunction } from '@src/State'
 import { defaultConfig } from '@src/default-config'
 import splitEvery from 'ramda/es/splitEvery'
 
-export type Target = string|ImageSource
+export type Target = string|Source
 
 const storesMap: Map<string, AsyncStore> = new Map()
 
-function getSourceFromUri(target: Target): ImageSource {
+function getSourceFromUri(target: Target): Source {
   if (typeof target === 'string') {
     return { uri: target }
   }

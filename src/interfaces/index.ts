@@ -122,10 +122,10 @@ export interface DownloadManagerInterface {
 export type DownloadManagerClass = new() => DownloadManagerInterface
 
 export interface IODriverInterface {
-  save({ uri, headers: userHeaders }: ImageSource): Promise<RequestReport>
-  revalidate({ uri, headers }: ImageSource, versionTag: URIVersionTag): Promise<RequestReport>
-  exists({ uri }: ImageSource): Promise<boolean>
-  delete(src: ImageSource): Promise<void>
+  save({ uri, headers: userHeaders }: Source): Promise<RequestReport>
+  revalidate({ uri, headers }: Source, versionTag: URIVersionTag): Promise<RequestReport>
+  exists({ uri }: Source): Promise<boolean>
+  delete(src: Source): Promise<void>
   createBaseDirIfMissing(): Promise<void>
   deleteBaseDirIfExists(): Promise<void>
 }
@@ -157,7 +157,7 @@ export interface HTTPHeaders {
   [n: string]: string
 }
 
-export interface ImageSource {
+export interface Source {
   uri: string,
   headers?: HTTPHeaders
 }

@@ -1,7 +1,7 @@
 import {
     AsyncStoreConfig,
     HTTPHeaders,
-    ImageSource,
+    Source,
     IODriverInterface,
     RequestReport,
     URIVersionTag,
@@ -105,7 +105,7 @@ export class IODriver implements IODriverInterface {
     }
   }
 
-  async delete(src: ImageSource): Promise<void> {
+  async delete(src: Source): Promise<void> {
     const { uri } = src
     const file = this.fileLocator.getLocalURIForRemoteURI(uri)
     if (await this.exists(src)) {
@@ -116,12 +116,12 @@ export class IODriver implements IODriverInterface {
     }
   }
 
-  async exists({ uri }: ImageSource): Promise<boolean> {
+  async exists({ uri }: Source): Promise<boolean> {
     const localFileUri = this.fileLocator.getLocalURIForRemoteURI(uri)
     return this.fileSystem.nodeExists(localFileUri)
   }
 
-  async revalidate({ uri, headers }: ImageSource, versionTag: URIVersionTag): Promise<RequestReport> {
+  async revalidate({ uri, headers }: Source, versionTag: URIVersionTag): Promise<RequestReport> {
     const newHeaders = {
       ...headers,
       ...this.getHeadersFromVersionTag(versionTag)
@@ -129,7 +129,7 @@ export class IODriver implements IODriverInterface {
     return this.save({ uri, headers: newHeaders })
   }
 
-  async save({ uri, headers: userHeaders }: ImageSource): Promise<RequestReport> {
+  async save({ uri, headers: userHeaders }: Source): Promise<RequestReport> {
     // Override default cache-control
     const headers = mergeDeepRight(userHeaders, { 'Cache-Control': 'max-age=31536000' })
     const basename = this.fileLocator.getLocalFileNamePrefixForRemoteURI(uri)
