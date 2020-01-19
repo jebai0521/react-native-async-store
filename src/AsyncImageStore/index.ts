@@ -151,15 +151,20 @@ export class AsyncImageStore<T extends object = any> {
         this.log(`File from origin ${model.uri} does not exists anymore but network is unavailable. ignoring revalidation.`)
       }
     } else {
-      if (state.fileState === 'FRESH') {
-        this.log(`File from origin ${model.uri} is FRESH and file exists, revalidation succeeded.`)
-      }
+      // if (state.fileState === 'FRESH') {
+      //   this.log(`File from origin ${model.uri} is FRESH and file exists, revalidation succeeded.`)
+      // }
       if (state.fileState === 'STALE' && state.networkState === 'UNAVAILABLE') {
         this.log(`File from origin ${model.uri} is STALE and file exists, but network is not available; ignoring revalidation.`)
       }
+
+      if (state.networkState === 'UNAVAILABLE') {
+        this.log(`File from origin ${model.uri} is ${state.fileState} and file exists, try revalidation.`)
+        revalidate = true;
+      }
     }
     revalidate = revalidate && (state.fileState === 'UNAVAILABLE' || state.fileState === 'STALE')
-    if (revalidate) {
+    if (true) {
       const preloadProposal: URIPatch = { fetching: true, error: null }
       if (headers) {
         preloadProposal.headers = headers
