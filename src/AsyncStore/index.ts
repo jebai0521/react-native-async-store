@@ -235,7 +235,7 @@ export class AsyncStore<T extends object = any> {
     const registry = await this.storage.load()
     await this.state.mount(registry)
     this.state.addRegistryUpdateListener(this.storage.save.bind(this.storage))
-    if (this.config.autoRemoveStaleImages) {
+    if (this.config.autoRemoveStales) {
       await this.deleteAllStaleImages()
     }
     this.mounted = true

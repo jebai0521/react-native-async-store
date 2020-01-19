@@ -5,7 +5,7 @@ export const defaultConfig: BaseAsyncStoreConfig<{}> = {
   IODriver,
   debug: __DEV__,
   defaultMaxAge: 86000,
-  autoRemoveStaleImages: false,
+  autoRemoveStales: false,
   maxParallelDownloads: 10,
   maxAttemptsBeforeAbort: 3,
   sleepBetweenAttempts: 400,

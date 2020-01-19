@@ -32,7 +32,7 @@ import { createStore } from 'react-native-async-image-store'
 const config = {
     // Automatically remove stale, expired images during lifecycle methods.
     // Cleansing is done on mount and unmount.
-    autoRemoveStaleImages: true,
+    autoRemoveStales: true,
     // By default, this library will follow "Cache-Control: max-age" HTTP header
     // directives to evaluate the freshness of images. You can force a value in
     // seconds, and use Infinity to denote an immutable store (images are always

@@ -44,7 +44,7 @@ export interface BaseAsyncStoreConfig<T extends object> {
    * 
    * **Default**: `false`
    */
-  autoRemoveStaleImages: boolean
+  autoRemoveStales: boolean
   /**
    * The maximum number of parallel downloads at a time.
    * This is a balance between operation speed and I/O bottlenecks.
