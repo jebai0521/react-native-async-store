@@ -1,5 +1,4 @@
-export * from './OfflineImage'
-export * from './AsyncImageStore'
+export * from './AsyncStore'
 export * from './drivers/IODriver'
 export * from './interfaces'
 export { joinUri } from './utils'
