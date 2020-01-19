@@ -217,6 +217,10 @@ export class AsyncImageStore<T extends object = any> {
     return this.state.getLocalURIFromLocalFilename(localFileName)
   }
 
+  protected getLocalURIForRemoteURI(remoteURI: string): string {
+    return this.state.getLocalURIForRemoteURI(remoteURI)
+  }
+
   /**
    * **Asynchronously** mount the Store, restoring cache metadata from storage.
    * 
