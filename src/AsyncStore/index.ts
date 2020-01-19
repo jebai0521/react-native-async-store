@@ -236,7 +236,7 @@ export class AsyncStore<T extends object = any> {
     await this.state.mount(registry)
     this.state.addRegistryUpdateListener(this.storage.save.bind(this.storage))
     if (this.config.autoRemoveStales) {
-      await this.deleteAllStaleImages()
+      await this.deleteAllStales()
     }
     this.mounted = true
   }
@@ -355,7 +355,7 @@ export class AsyncStore<T extends object = any> {
      * 
      * @param onProgress a callback to be invoked after each deletion
      */
-  public async deleteAllStaleImages(onProgress?: ProgressCallback): Promise<URIEvent[]> {
+  public async deleteAllStales(onProgress?: ProgressCallback): Promise<URIEvent[]> {
     this.assertMountInvariant()
     return this.dispatchCommandWhen('DELETE', (s => s.fileState === 'STALE'), onProgress)
   }
